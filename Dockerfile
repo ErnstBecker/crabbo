@@ -4,5 +4,5 @@ COPY . .
 RUN cargo build --release
 
 FROM debian:bookworm-slim
-COPY --from=builder /app/target/release/rustty /usr/local/bin/
-CMD ["/usr/local/bin/rustty"]
+COPY --from=builder /app/target/release/crabbo /usr/local/bin/
+CMD ["/usr/local/bin/crabbo"]
