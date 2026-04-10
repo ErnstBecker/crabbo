@@ -1,0 +1,10 @@
+[package]
+name = "rustty"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+serenity = { version = "0.12.5", features = ["client", "gateway", "model"] }
+async-trait = "0.1"
+dotenvy = "0.15.7"
