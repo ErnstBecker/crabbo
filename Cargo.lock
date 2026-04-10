@@ -192,6 +192,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "crabbo"
+version = "0.0.1"
+dependencies = [
+ "async-trait",
+ "dotenvy",
+ "serenity",
+ "tokio",
+]
+
+[[package]]
 name = "crc32fast"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1277,16 +1287,6 @@ dependencies = [
  "ring",
  "rustls-pki-types",
  "untrusted",
-]
-
-[[package]]
-name = "rustty"
-version = "0.0.1"
-dependencies = [
- "async-trait",
- "dotenvy",
- "serenity",
- "tokio",
 ]
 
 [[package]]
