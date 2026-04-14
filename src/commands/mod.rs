@@ -1,4 +1,5 @@
 pub mod ping;
+pub mod wallet;
 
 use std::collections::HashMap;
 use async_trait::async_trait;
@@ -18,11 +19,13 @@ pub struct CommandManager {
 }
 
 impl CommandManager {
-    pub fn new() -> Self {
+    pub fn new(commands: Vec<Box<dyn Command>>) -> Self {
         let mut manager = CommandManager {
             commands: HashMap::new(),
         };
-        manager.add(Box::new(ping::PingCommand));
+        for command in commands {
+            manager.add(command);
+        }
         manager
     }
 
