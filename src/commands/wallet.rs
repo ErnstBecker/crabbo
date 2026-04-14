@@ -26,7 +26,7 @@ impl Command for WalletCommand {
                 .required(true),
             )
             .add_option(
-                CreateCommandOption::new(CommandOptionType::String, "network", "Write testnet if you wan't to check testnet addresses")
+                CreateCommandOption::new(CommandOptionType::String, "network", "Write testnet if you want to check testnet addresses")
                 .required(false),
             )
     }
