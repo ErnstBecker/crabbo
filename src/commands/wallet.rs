@@ -55,7 +55,7 @@ impl Command for WalletCommand {
         };
 
         let content = match self.service.get_balance(address, network).await {
-            Ok(balance) => format!("Wallet: `{}`\nBalance: `{}`", short_address, balance),
+            Ok(balance) => format!("Network: `{}`\nWallet: `{}`\nBalance: `{}`", network, short_address, balance),
             Err(e) => format!("Error: {}", e),
         };
 
