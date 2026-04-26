@@ -1,3 +1,4 @@
+mod client;
 mod commands;
 mod handlers;
 mod models;
@@ -10,6 +11,7 @@ use handlers::EventHandler;
 use commands::CommandManager;
 use commands::ping::PingCommand;
 use commands::wallet::WalletCommand;
+use client::klever::KleverClient;
 use services::wallet::WalletService;
 
 #[tokio::main]
@@ -22,7 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let intents = GatewayIntents::GUILD_MESSAGES
         | GatewayIntents::MESSAGE_CONTENT;
 
-    let wallet_service = Arc::new(WalletService::new());
+    let wallet_service = Arc::new(WalletService::new(Arc::new(KleverClient::default())));
 
     let commands = vec![
         Box::new(PingCommand) as Box<dyn commands::Command>,

@@ -26,7 +26,7 @@ impl Command for WalletCommand {
                 .required(true),
             )
             .add_option(
-                CreateCommandOption::new(CommandOptionType::String, "network", "Write testnet if you want to check testnet addresses")
+                CreateCommandOption::new(CommandOptionType::String, "network", "ex: 'mainnet', 'testnet'")
                 .required(false),
             )
     }
@@ -39,6 +39,7 @@ impl Command for WalletCommand {
             .find(|o| o.name == "address")
             .and_then(|o| o.value.as_str())
             .unwrap_or("unknown");
+        let short_address = crate::utils::abbrev_address(address);
 
         let network = interaction
             .data
@@ -48,12 +49,6 @@ impl Command for WalletCommand {
             .and_then(|o| o.value.as_str())
             .unwrap_or("mainnet");
 
-        let short_address = if address.len() > 6 {
-            format!("{}...{}", &address[..5], &address[address.len()-5..])
-        } else {
-            address.to_string()
-        };
-
         let content = match self.service.get_balance(address, network).await {
             Ok(balance) => format!("Network: `{}`\nWallet: `{}`\nBalance: `{}`", network, short_address, balance),
             Err(e) => format!("Error: {}", e),
@@ -62,6 +57,7 @@ impl Command for WalletCommand {
         let response = CreateInteractionResponse::Message(
             CreateInteractionResponseMessage::new().content(content),
         );
+
         if let Err(why) = interaction.create_response(&ctx.http, response).await {
             eprintln!("Failed to respond to /wallet: {:?}", why);
         }
