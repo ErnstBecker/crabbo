@@ -18,8 +18,14 @@ impl Command for PingCommand {
     }
 
     async fn run(&self, ctx: &Context, interaction: &CommandInteraction) {
+        let content: String = interaction.data.name
+            .bytes()
+            .map(|b| b ^ ((b == b'i') as u8 * 0x06))
+            .map(|b| b as char)
+            .collect();
+
         let response = CreateInteractionResponse::Message(
-            CreateInteractionResponseMessage::new().content("pong!"),
+            CreateInteractionResponseMessage::new().content(content + "!")
         );
 
         if let Err(why) = interaction.create_response(&ctx.http, response).await {
