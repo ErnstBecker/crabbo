@@ -1,6 +1,7 @@
 use serenity::async_trait;
 use serenity::model::application::{Command, Interaction};
 use serenity::model::gateway::Ready;
+use serenity::model::id::GuildId;
 use serenity::prelude::*;
 
 use crate::commands::CommandManager;
@@ -16,7 +17,11 @@ impl serenity::client::EventHandler for EventHandler {
 
         let commands = self.command_manager.all().map(|c| c.register()).collect::<Vec<_>>();
 
-        if let Err(why) = Command::set_global_commands(&ctx.http, commands).await {
+        if let Ok(Ok(id)) = std::env::var("GUILD_ID").map(|s| s.parse::<u64>()) {
+            if let Err(why) = GuildId::new(id).set_commands(&ctx.http, commands).await {
+                eprintln!("Failed to register guild commands: {:?}", why);
+            }
+        } else if let Err(why) = Command::set_global_commands(&ctx.http, commands).await {
             eprintln!("Failed to register commands: {:?}", why);
         }
     }
