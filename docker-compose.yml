@@ -1,0 +1,4 @@
+services:
+  crabbo:
+    build: .
+    env_file: .env
