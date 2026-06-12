@@ -21,8 +21,14 @@ impl serenity::client::EventHandler for EventHandler {
             if let Err(why) = GuildId::new(id).set_commands(&ctx.http, commands).await {
                 eprintln!("Failed to register guild commands: {:?}", why);
             }
-        } else if let Err(why) = Command::set_global_commands(&ctx.http, commands).await {
-            eprintln!("Failed to register commands: {:?}", why);
+            // Clear global commands to avoid duplicates alongside guild commands
+            if let Err(why) = Command::set_global_commands(&ctx.http, vec![]).await {
+                eprintln!("Failed to clear global commands: {:?}", why);
+            }
+        } else {
+            if let Err(why) = Command::set_global_commands(&ctx.http, commands).await {
+                eprintln!("Failed to register commands: {:?}", why);
+            }
         }
     }
 
