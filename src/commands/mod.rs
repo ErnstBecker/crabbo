@@ -1,7 +1,13 @@
 pub mod ping;
 pub mod wallet;
 
+use ping::PingCommand;
+use wallet::WalletCommand;
+
 use std::collections::HashMap;
+use std::sync::Arc;
+use crate::client::klever::KleverClient;
+use crate::services::wallet::WalletService;
 use async_trait::async_trait;
 use serenity::builder::CreateCommand;
 use serenity::model::application::CommandInteraction;
@@ -19,18 +25,21 @@ pub struct CommandManager {
 }
 
 impl CommandManager {
-    pub fn new(commands: Vec<Box<dyn Command>>) -> Self {
-        let mut manager = CommandManager {
-            commands: HashMap::new(),
-        };
-        for command in commands {
-            manager.add(command);
-        }
-        manager
+    pub fn build() -> Self {
+        let wallet_service = Arc::new(WalletService::new(Arc::new(KleverClient::default())));
+        Self::new()
+            .register(PingCommand)
+            .register(WalletCommand { service: wallet_service })
     }
 
-    fn add(&mut self, command: Box<dyn Command>) {
+    fn new() -> Self {
+        CommandManager { commands: HashMap::new() }
+    }
+
+    pub fn register(mut self, command: impl Command + 'static) -> Self {
+        let command = Box::new(command);
         self.commands.insert(command.name().to_string(), command);
+        self
     }
 
     pub fn get(&self, name: &str) -> Option<&dyn Command> {
