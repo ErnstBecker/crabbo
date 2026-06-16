@@ -1,10 +1,13 @@
-.PHONY: run build setup check
+.PHONY: run build setup check fmt
 
 run:
 	cargo run
 
 build:
 	cargo build --release
+
+fmt:
+	cargo fmt --all
 
 check:
 	cargo fmt --all -- --check

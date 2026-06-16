@@ -24,12 +24,24 @@ pub struct CommandManager {
     commands: HashMap<String, Box<dyn Command>>,
 }
 
+struct Services {
+    wallet: Arc<WalletService>,
+}
+
+impl Services {
+    fn new() -> Self {
+        Self {
+            wallet: Arc::new(WalletService::new(Arc::new(KleverClient::default()))),
+        }
+    }
+}
+
 impl CommandManager {
     pub fn build() -> Self {
-        let wallet_service = Arc::new(WalletService::new(Arc::new(KleverClient::default())));
-        Self::new().register(PingCommand).register(WalletCommand {
-            service: wallet_service,
-        })
+        let services = Services::new();
+        Self::new()
+            .register(PingCommand)
+            .register(WalletCommand { service: services.wallet })
     }
 
     fn new() -> Self {
