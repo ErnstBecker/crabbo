@@ -5,19 +5,17 @@ mod models;
 mod services;
 mod utils;
 
-use serenity::prelude::*;
-use handlers::EventHandler;
 use commands::CommandManager;
+use handlers::EventHandler;
+use serenity::prelude::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::dotenv().ok();
 
-    let token = std::env::var("DISCORD_TOKEN")
-        .expect("Token not found");
+    let token = std::env::var("DISCORD_TOKEN").expect("Token not found");
 
-    let intents = GatewayIntents::GUILD_MESSAGES
-        | GatewayIntents::MESSAGE_CONTENT;
+    let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
 
     let commands = CommandManager::build();
 

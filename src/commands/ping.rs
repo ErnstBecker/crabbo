@@ -1,5 +1,7 @@
 use async_trait::async_trait;
-use serenity::builder::{CreateCommand, CreateInteractionResponse, CreateInteractionResponseMessage};
+use serenity::builder::{
+    CreateCommand, CreateInteractionResponse, CreateInteractionResponseMessage,
+};
 use serenity::model::application::CommandInteraction;
 use serenity::prelude::Context;
 
@@ -18,14 +20,16 @@ impl Command for PingCommand {
     }
 
     async fn run(&self, ctx: &Context, interaction: &CommandInteraction) {
-        let content: String = interaction.data.name
+        let content: String = interaction
+            .data
+            .name
             .bytes()
             .map(|b| b ^ ((b == b'i') as u8 * 0x06))
             .map(|b| b as char)
             .collect();
 
         let response = CreateInteractionResponse::Message(
-            CreateInteractionResponseMessage::new().content(content + "!")
+            CreateInteractionResponseMessage::new().content(content + "!"),
         );
 
         if let Err(why) = interaction.create_response(&ctx.http, response).await {
