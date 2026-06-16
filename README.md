@@ -41,7 +41,7 @@ cd crabbo
 **2. Configure environment variables**
 
 ```sh
-cp .env.example .env
+make setup
 ```
 
 Edit `.env`:

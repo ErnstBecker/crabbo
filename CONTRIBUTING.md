@@ -7,6 +7,15 @@
 | `/ping`                       | Replies with pong |
 | `/wallet <address> [network]` | Returns the KLV balance of a wallet address. Network defaults to `mainnet`, accepts `testnet` |
 
+## Makefile
+
+| Command      | Description                                                      |
+|--------------|------------------------------------------------------------------|
+| `make setup` | Copies `.env.example` to `.env` (skips if already exists) |
+| `make run`   | Runs the bot in development mode                          |
+| `make build` | Compiles the release binary to `target/release/crabbo`    |
+| `make check` | Runs `rustfmt` and `clippy`                               |
+
 ## Project structure
 
 ```

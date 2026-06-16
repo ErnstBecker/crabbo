@@ -1,7 +1,9 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use serenity::builder::{CreateCommand, CreateCommandOption, CreateInteractionResponse, CreateInteractionResponseMessage};
+use serenity::builder::{
+    CreateCommand, CreateCommandOption, CreateInteractionResponse, CreateInteractionResponseMessage,
+};
 use serenity::model::application::{CommandInteraction, CommandOptionType};
 use serenity::prelude::Context;
 
@@ -23,10 +25,14 @@ impl Command for WalletCommand {
             .description("Replies with the wallet balance")
             .add_option(
                 CreateCommandOption::new(CommandOptionType::String, "address", "Wallet address")
-                .required(true),
+                    .required(true),
             )
             .add_option(
-                CreateCommandOption::new(CommandOptionType::String, "network", "ex: 'mainnet', 'testnet'")
+                CreateCommandOption::new(
+                    CommandOptionType::String,
+                    "network",
+                    "ex: 'mainnet', 'testnet'",
+                )
                 .required(false),
             )
     }
@@ -50,7 +56,10 @@ impl Command for WalletCommand {
             .unwrap_or("mainnet");
 
         let content = match self.service.get_balance(address, network).await {
-            Ok(balance) => format!("Network: `{}`\nWallet: `{}`\nBalance: `{}`", network, short_address, balance),
+            Ok(balance) => format!(
+                "Network: `{}`\nWallet: `{}`\nBalance: `{}`",
+                network, short_address, balance
+            ),
             Err(e) => format!("Error: {}", e),
         };
 
