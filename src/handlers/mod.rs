@@ -15,7 +15,11 @@ impl serenity::client::EventHandler for EventHandler {
     async fn ready(&self, ctx: Context, ready: Ready) {
         println!("{} connected!", ready.user.name);
 
-        let commands = self.command_manager.all().map(|c| c.register()).collect::<Vec<_>>();
+        let commands = self
+            .command_manager
+            .all()
+            .map(|c| c.register())
+            .collect::<Vec<_>>();
 
         if let Ok(Ok(id)) = std::env::var("GUILD_ID").map(|s| s.parse::<u64>()) {
             if let Err(why) = GuildId::new(id).set_commands(&ctx.http, commands).await {
