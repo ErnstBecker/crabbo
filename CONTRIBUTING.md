@@ -14,7 +14,8 @@
 | `make setup` | Copies `.env.example` to `.env` (skips if already exists) |
 | `make run`   | Runs the bot in development mode                          |
 | `make build` | Compiles the release binary to `target/release/crabbo`    |
-| `make check` | Runs `rustfmt` and `clippy`                               |
+| `make fmt`   | Applies `rustfmt` formatting to all files                 |
+| `make check` | Verifies formatting and runs `clippy`                     |
 
 ## Project structure
 
@@ -94,4 +95,25 @@ use your_command::YourCommand;
 .register(YourCommand)
 ```
 
-If your command needs a service (like `WalletCommand` uses `WalletService`), instantiate it inside `build()` and pass it via the command struct.
+If your command needs a service, add it to the `Services` struct and pass it through:
+
+```rust
+struct Services {
+    wallet: Arc<WalletService>,
+    your_service: Arc<YourService>,
+}
+
+impl Services {
+    fn new() -> Self {
+        Self {
+            wallet: Arc::new(WalletService::new(Arc::new(KleverClient::default()))),
+            your_service: Arc::new(YourService::new()),
+        }
+    }
+}
+
+// inside CommandManager::build():
+use your_command::YourCommand;
+
+.register(YourCommand { service: services.your_service })
+```
