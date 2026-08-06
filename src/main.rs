@@ -1,11 +1,13 @@
-mod client;
+mod adapters;
 mod commands;
+mod composition;
+mod domain;
 mod handlers;
-mod models;
+mod ports;
 mod services;
 mod utils;
 
-use commands::CommandManager;
+use composition::bootstrap;
 use handlers::EventHandler;
 use serenity::prelude::*;
 
@@ -17,7 +19,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT;
 
-    let commands = CommandManager::build();
+    let commands = bootstrap();
 
     let mut client = Client::builder(&token, intents)
         .event_handler(EventHandler {
