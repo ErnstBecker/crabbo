@@ -4,14 +4,12 @@ pub mod wallet;
 use ping::PingCommand;
 use wallet::WalletCommand;
 
-use crate::client::klever::KleverClient;
 use crate::services::wallet::WalletService;
 use async_trait::async_trait;
 use serenity::builder::CreateCommand;
 use serenity::model::application::CommandInteraction;
 use serenity::prelude::Context;
 use std::collections::HashMap;
-use std::sync::Arc;
 
 #[async_trait]
 pub trait Command: Send + Sync {
@@ -24,24 +22,11 @@ pub struct CommandManager {
     commands: HashMap<String, Box<dyn Command>>,
 }
 
-struct Services {
-    wallet: Arc<WalletService>,
-}
-
-impl Services {
-    fn new() -> Self {
-        Self {
-            wallet: Arc::new(WalletService::new(Arc::new(KleverClient::default()))),
-        }
-    }
-}
-
 impl CommandManager {
-    pub fn build() -> Self {
-        let services = Services::new();
+    pub fn build(wallet: WalletService) -> Self {
         Self::new()
             .register(PingCommand)
-            .register(WalletCommand { service: services.wallet })
+            .register(WalletCommand { service: wallet })
     }
 
     fn new() -> Self {

@@ -5,12 +5,11 @@
   <img src="https://img.shields.io/github/repo-size/ernstbecker/crabbo?&labelColor=151515&color=ff0043">
   <p>Discord bot built in Rust for interacting with the <a href="https://klever.org">Klever</a> blockchain.</p>
   <h3>🚧  Work in Progress  🚧</h3>
-  <a href="#about">Commands</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#about">About</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#commands">Commands</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#requirements">Requirements</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#setup">Setup</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#docker">Docker</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#contributing">Contributing</a>
+  <a href="#docker">Docker</a>
 </div>
 
 ## About
@@ -64,10 +63,6 @@ make run
 ```sh
 docker compose up
 ```
-
-## Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for project structure and instructions on adding new commands.
 
 ## License
 

@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use async_trait::async_trait;
 use serenity::builder::{
     CreateCommand, CreateCommandOption, CreateInteractionResponse, CreateInteractionResponseMessage,
@@ -11,7 +9,7 @@ use super::Command;
 use crate::services::wallet::WalletService;
 
 pub struct WalletCommand {
-    pub service: Arc<WalletService>,
+    pub service: WalletService,
 }
 
 #[async_trait]
@@ -57,7 +55,7 @@ impl Command for WalletCommand {
 
         let content = match self.service.get_balance(address, network).await {
             Ok(balance) => format!(
-                "Network: `{}`\nWallet: `{}`\nBalance: `{}`",
+                "Network: `{}`\nWallet: `{}`\nBalance: `{:.6} KLV`",
                 network, short_address, balance
             ),
             Err(e) => format!("Error: {}", e),
