@@ -1,4 +1,5 @@
-FROM rust:1.97.1-alpine AS builder
+FROM rust:1.98.1-alpine AS builder
+RUN apk add --no-cache musl-dev pkgconfig openssl-dev openssl-libs-static
 WORKDIR /app
 COPY . .
 RUN cargo build --release
